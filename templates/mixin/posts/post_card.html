@@ -3,12 +3,16 @@
     <div class="card_header">
         <img src="http://via.placeholder.com/32x32" alt="프로필이미지">
         <a href="#">
-            <span class="card_user-name">likelion.offical</span>
+            <span class="card_user-name">{{ post.writer }}</span>
         </a>
     </div>
     <div class="card_body">
         <div>
-            <img class="card_image" src="http://via.placeholder.com/600x600" alt="">
+            {% if post.image %}
+            <img class="card__image" src="{{ post.image.url }}" alt="">
+            {% else %}
+            <img class="card__image" src="http://via.placeholder.com/600x600" alt="">
+            {% endif %}
         </div>
         <div class="card_btn-group">
             <div>
@@ -23,17 +27,27 @@
         <div class="card_content">
             <span class="card_like-num">좋아요 00개</span>
             <div class="card_main-text">
-                <p><span class="card_user-name">likelion.offical</span>
-                    {{"실무와 현업에서 필요로 하는 백엔드 개발자로의 역량 배양에 효과적"|truncatechars:35}}</p>
+                <p><span class="card_user-name">{{ post.writer }} </span>
+                    {% if not detail %}
+                    {{post.content|truncatechars:35}}
+                    {% else %}
+                    {{post.content}}
+                    {% endif %}
+                </p>
             </div>
             <div>
-                <p>댓글 0개 모두 보기</p>
+                <p>댓글 {{ post.comment_set.all.count }} 개 모두 보기</p>
                 <ul class="card_comment-group">
                     <li>
-                        <p><span class="card_user-name">likelion.offical</span>
+                        <p><span class="card_user-name">{{ post.writer }}</span>
                             댓글 내용...
                         </p>
                     </li>
+                    {% for comment in post.comment_set.all %}
+                    <li>
+                        <p><span class="card__user-name">{{ comment.writer }}</span>{{ comment.content }}</p>
+                    </li>
+                    {% endfor %}
                 </ul>
                 <p>2023년 5월 10일</p>
             </div>

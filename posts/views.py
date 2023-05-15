@@ -6,10 +6,20 @@ from django.contrib.auth.decorators import login_required
 from .models import Post
 
 def index(request):
-    return render(request, 'index.html')
+    post_list = Post.objects.all()
+    context = {
+        'post_list': post_list,
+    }
+    return render(request, 'index.html', context)
 
 def post_list_view(request):
-    return render(request, 'posts/post_list.html')
+    # post_list = Post.objects.all() - post의 전체데이터조회
+    post_list = Post.objects.filter(writer=request.user) # 로그인된 user의 글만 보여줌
+    # post_list = None - post_list에 아무것도 없을 때는 sql구문 실행안함
+    context = {
+        'post_list': post_list,
+    }
+    return render(request, 'posts/post_list.html', context)
 
 def post_detail_view(request, id):
     return render(request, 'posts/post_detail.html')
