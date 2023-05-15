@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
 
 from .models import Post
 
@@ -13,8 +14,21 @@ def post_list_view(request):
 def post_detail_view(request, id):
     return render(request, 'posts/post_detail.html')
 
-def post_create_view(request, id):
-    return render(request, 'posts/post_form.html')
+@login_required
+def post_create_view(request):
+    if request.method == "GET":
+        return render(request, 'posts/post_form.html')
+    else: ## 글을 입력받으면 POST
+        image = request.FILES.get('image')
+        content = request.POST.get('content')
+        print(image)
+        print(content)
+        Post.objects.create(
+            image=image,
+            content=content,
+            writer=request.user
+        )
+        return redirect('index')
 
 def post_update_view(request, id):
     return render(request, 'posts/post_form.html')

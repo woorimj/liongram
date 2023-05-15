@@ -11,30 +11,32 @@
             <img class="card_image" src="http://via.placeholder.com/600x600" alt="">
         </div>
         <div class="card_btn-group">
-            <img class="card_btn" src="{% static 'icons/favorite_outlined_black_36dp.svg' %}" alt="">
-            <img class="card_btn" src="{% static 'icons/mode_comment_outlined_black_36dp.svg' %}" alt="">
-            <img class="card_btn" src="{% static 'icons/send_outlined_black_36dp.svg' %}" alt="">
+            <div>
+                <img class="card_btn" src="{% static 'icons/favorite_outlined_black_36dp.svg' %}" alt="좋아요">
+                <img class="card_btn" src="{% static 'icons/mode_comment_outlined_black_36dp.svg' %}" alt="댓글">
+                <img class="card_btn" src="{% static 'icons/send_outlined_black_36dp.svg' %}" alt="공유하기">
+            </div>
+            <div>
+                <img class="card_btn" src="{% static 'icons/bookmark_outlined_black_36dp.svg' %}" alt="북마크">
+            </div>
         </div>
-        <div>
-            <img class="card_btn" src="{% static 'icons/bookmark_outlined_black_36dp.svg' %}" alt="">
-        </div>
-    </div>
-    <div class="card_content">
-        <span class="card_like-num">좋아요 00개</span>
-        <div class="card_main-text">
-            <p><span class="card_user-name">likelion.offical</span>
-                {{"실무와 현업에서 필요로 하는 백엔드 개발자로의 역량 배양에 효과적"|truncatechars:35}}</p>
-        </div>
-        <div>
-            <p>댓글 0개 모두 보기</p>
-            <ul class="card_comment-group">
-                <li>
-                    <p><span class="card_user-name">likelion.offical</span>
-                        댓글 내용...
-                    </p>
-                </li>
-            </ul>
-            <p>2023년 5월 10일</p>
+        <div class="card_content">
+            <span class="card_like-num">좋아요 00개</span>
+            <div class="card_main-text">
+                <p><span class="card_user-name">likelion.offical</span>
+                    {{"실무와 현업에서 필요로 하는 백엔드 개발자로의 역량 배양에 효과적"|truncatechars:35}}</p>
+            </div>
+            <div>
+                <p>댓글 0개 모두 보기</p>
+                <ul class="card_comment-group">
+                    <li>
+                        <p><span class="card_user-name">likelion.offical</span>
+                            댓글 내용...
+                        </p>
+                    </li>
+                </ul>
+                <p>2023년 5월 10일</p>
+            </div>
         </div>
     </div>
 </div>
