@@ -11,11 +11,8 @@ class Post(models.Model):
     view_count = models.IntegerField(verbose_name='조회수', default=0)
     writer = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)
 
-# 2. 댓글
 class Comment(models.Model):
     content = models.TextField(verbose_name='내용')
-    created_at = models.DateTimeField(verbose_name='작성일', auto_now_add=True)
-    # 게시글과의 연결
+    created_at = models.DateTimeField(verbose_name='작성일')
     post = models.ForeignKey(to='Post', on_delete=models.CASCADE)
-    # 사용자와의 연결
-    writer = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    writer = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, blank=True)

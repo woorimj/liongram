@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from wsgiref.util import request_uri
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404, HttpResponse, JsonResponse
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
+from .forms import PostBaseForm, PostCreateForm, PostDetailForm
 from .models import Post
 
 def index(request):
@@ -22,6 +24,14 @@ def post_list_view(request):
     return render(request, 'posts/post_list.html', context)
 
 def post_detail_view(request, id):
+    try:
+        post = Post.objects.get(id=id)
+    except Post.DoesNotExist:
+        return redirect('index')
+    context = {
+        'post': post,
+        'form': PostDetailForm(),
+    }
     return render(request, 'posts/post_detail.html')
 
 @login_required
@@ -41,7 +51,12 @@ def post_create_view(request):
         return redirect('index')
 
 def post_update_view(request, id):
-    return render(request, 'posts/post_form.html')
+    post = Post.objects.get(id=id)
+    if request.method == "GET":
+        context = {'post':post}
+        return render(request, 'posts/post_form.html', context)
+    elif request.method == "POST":
+        pass
 
 def post_delete_view(request, id):
     return render(request, 'posts/post_confirm_delete.html')
