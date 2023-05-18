@@ -59,7 +59,16 @@ def post_update_view(request, id):
         pass
 
 def post_delete_view(request, id):
-    return render(request, 'posts/post_confirm_delete.html')
+    post = get_object_or_404(Post, id=id)
+    #if request.user != post_writer:
+        #return Http404()
+    
+    if request.method == 'GET':
+        context = {'post': post}
+        return render(request, 'posts/post_confirm_delete.html', context)
+    else:
+        post.delete()
+        return redirect('index')
 
 # Create your views here.
 # FBV -> 함수기반 view
