@@ -21,6 +21,13 @@ class PostBaseForm(forms.ModelForm):
 class PostCreateForm(PostBaseForm):
      class Meta(PostBaseForm.Meta):
           fields = ['image', 'content']
+     
+     # 유효성검사
+     def clean_content(self):
+          data = self.cleaned_data['content']
+          if "비속어" == data:
+               raise ValidationError("비속어는 사용하실 수 없습니다.")
+          return data
     
 
 class PostUpdateForm(PostBaseForm):
@@ -31,5 +38,5 @@ class PostUpdateForm(PostBaseForm):
 class PostDetailForm(PostBaseForm):
      def __init__(self, *args, **kwargs):
           super().__init__(self, *args, **kwargs)
-          for filed in self.fields:
-               filed.widget.attrs['disabled'] = True 
+          for key in self.fields:
+               self.fields[key].widget.attrs['disabled'] = True 
