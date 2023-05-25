@@ -4,7 +4,7 @@ from django.http import Http404, HttpResponse, JsonResponse
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
-from .forms import PostBaseForm, PostCreateForm, PostDetailForm
+from .forms import PostBaseForm, PostCreateForm, PostDetailForm, PostUpdateForm
 from .models import Post
 
 def index(request):
@@ -32,7 +32,7 @@ def post_detail_view(request, id):
         'post': post,
         'form': PostDetailForm(),
     }
-    return render(request, 'posts/post_detail.html')
+    return render(request, 'posts/post_detail.html', context)
 
 @login_required
 def post_create_view(request):
@@ -49,7 +49,25 @@ def post_create_view(request):
             writer=request.user
         )
         return redirect('index')
+    
+def post_create_form_view(request):
+    if request.method == "GET":
+        form = PostCreateForm()
+        context = {'form' : form}
+        return render(request, 'posts/post_form2.html', context)
+    else: 
+        form = PostBaseForm(request.POST, request.FILES)
 
+        if form.is_valid():
+             Post.objects.create(
+                image = form.cleaned_data['image'],
+                content = form.cleaned_data['content'],
+                writer = request.user
+            )
+        else:
+            return redirect('posts:post-create')
+        return redirect('index')
+    
 def post_update_view(request, id):
     post = Post.objects.get(id=id)
     if request.method == "GET":
